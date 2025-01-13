@@ -30,15 +30,12 @@ Use cases for offline payments including
 
 The key words “MUST”, “MUST NOT”, “REQUIRED”, “SHALL”, “SHALL NOT”, “SHOULD”, “SHOULD NOT”, “RECOMMENDED”, “NOT RECOMMENDED”, “MAY”, and “OPTIONAL” in this document are to be interpreted as described in RFC 2119 and RFC 8174.
 
-### Custodian Wallet
+### Custodian Wallet `sendTransaction`
 
 With custodian wallet, allowing token movement even when the user lacks direct synchronization with the blockchain network.
 
-### Schema
-
-- sendTransaction
-
 ``` json
+// custodian wallet
 "payload": {
     "network": "<STRING>",
     "sub_id": "<HEX_VALUE>",
@@ -61,6 +58,31 @@ When transferring native tokens, the `currency` key **MUST** be `0` or `null`.
 The callback **MUST** return the latest `balance` of the specified `currency` and a `transactionHash`
 The `currency` **SHOULD** be represented by the token's `symbol`, which is mapped to a `number`, allowing the user to select the token they wish to send.
 If the transaction is successful, these details are returned to the `sender`; otherwise, a `error` message is provided.
+
+### Non-Custodian Wallet `sendTransaction`
+
+<!-- TODO -->
+
+``` json
+// non-custodian wallet
+"payload": {
+    "network": "<STRING>",
+    "sub_id": "<HEX_VALUE>",
+    "signature": "<STRING>",
+}
+```
+
+``` json
+"response": {
+    "balance": "<HEX_VALUE>",
+    "currency": "<STRING>",
+    "transaction_hash": "<HEX_STRING>",
+}
+```
+Service Provider **MUST** decode the raw transaction and retrieve the token symbol from the smart contract.
+The callback **MUST** return the latest `balance` of the specified `currency` and a `transactionHash`
+
+### Others Method
 
 - getBalance
   
